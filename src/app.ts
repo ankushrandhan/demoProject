@@ -1,14 +1,22 @@
 import express from 'express'
-import json from 'body-parser'
-
+import fileUpload from 'express-fileupload'
 require('dotenv').config();
-import './utils/db/postgresql';
 
 import { apiRoutes } from './routes/routes'
 const app=express()
 
-app.use(json());
+app.use(fileUpload({
+  
+ }));
 
+const db = require("./models");
+db.sequelize.sync()
+  .then(() => {
+    console.log("Synced db.");
+  })
+  .catch((err:any) => {
+    console.log("Failed to sync db: " + err.message);
+  });
 app.use(apiRoutes);
 
 

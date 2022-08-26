@@ -1,8 +1,9 @@
 import express from "express";
-import { authController } from "./adminController";
+import {adminController} from "./adminController";
+import AdminValidator from './admin.validator';
 const router = express.Router();
 
-// router.get("/login", authController.login);
+ router.post("/login", AdminValidator.login,adminController.login);
 
 
-export { router as authRoutes };
+export { router as adminRoutes };

@@ -1,20 +1,26 @@
 import { Model, DataTypes, Sequelize, INTEGER } from "sequelize";
 
 module.exports = (sequelize: any, Sequelize: any) => {
-  const Admin = sequelize.define(
-    'admin',
+  const User = sequelize.define(
+    'users',
     {
       id: {
         type: INTEGER,
         primaryKey: true,
       },
-      name: {
+      firstname: {
+        type: Sequelize.STRING,
+      },
+      lastname: {
+        type: Sequelize.STRING,
+      },
+      email: {
         type: Sequelize.STRING,
       },
       password: {
         type: Sequelize.STRING,
       },
-      email: {
+      designation: {
         type: Sequelize.STRING,
       },
     },
@@ -22,5 +28,5 @@ module.exports = (sequelize: any, Sequelize: any) => {
       timestamps: false,
     }
   );
-  return Admin;
+  return User;
 };

@@ -1,3 +1,5 @@
+import {adminJSON, adminTag, adminLoginSchema} from './components/admin/admin.swagger';
+import {userJSON, userTag, userRegisteredSchema} from './components/users/user.swagger';
 export const swaggerJSON = {
 
     openapi: '3.0.0',
@@ -17,24 +19,27 @@ export const swaggerJSON = {
       },
     ],
     tags: [
-     
+      adminTag,
+      userTag
     ],
     paths: {
-      
+      ...adminJSON,
+      ...userJSON
     },
     components: {
-      securitySchemes: {
-        BearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-      },
+      // securitySchemes: {
+      //   BearerAuth: {
+      //     type: 'http',
+      //     scheme: 'bearer',
+      //     bearerFormat: 'JWT',
+      //   },
+      // },
       parameters: {
         
       },
       schemas: {
-        
+        adminLoginSchema,
+        userRegisteredSchema
       },
     },
     schemes: ['http'],
