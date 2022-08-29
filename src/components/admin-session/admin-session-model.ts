@@ -16,7 +16,7 @@ module.exports = (sequelize: any, Sequelize: any) => {
         type: Sequelize.STRING,
         required:true
       },
-      device_type: {
+      device_token: {
         type: Sequelize.STRING,
         required:true
       },

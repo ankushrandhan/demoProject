@@ -33,5 +33,6 @@ export default {
   SUB_CATEGORY_NOT_FOUND: 'Sub Category not found',
   CATEGORY_NOT_FOUND: 'Category not found',
   LOGGED_IN: 'Log in successfully.',
-
+  TOKEN_REQUIRE:'ACCESS DENIED !! You are not authorize to access this Resource!',
+  PROFILE_UPDATE:'Profile updated successfully.'
 };

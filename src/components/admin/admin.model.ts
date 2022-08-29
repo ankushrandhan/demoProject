@@ -1,21 +1,32 @@
 import { Model, DataTypes, Sequelize, INTEGER } from "sequelize";
-
+/**
+ * Interface for Admin
+ * @interface
+ */
+export interface IAdmin {
+  id?: String;
+  name: String;
+  email: String;
+  password: String;
+}
 module.exports = (sequelize: any, Sequelize: any) => {
   const Admin = sequelize.define(
-    'admin',
+    "admin",
     {
       id: {
-        type: INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
       },
       name: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
       password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
       email: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
     },
     {

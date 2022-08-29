@@ -5,23 +5,26 @@ module.exports = (sequelize: any, Sequelize: any) => {
     'users',
     {
       id: {
-        type: INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        allowNull: false,
+			autoIncrement: true,
       },
       firstname: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
       lastname: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
       email: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
       password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
+        unique: false
       },
       designation: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
     },
     {

@@ -51,6 +51,48 @@ const db = require("../../models/index");
       }
       return checkAdminExist;
     }
+    async updatePassword(data:any) {
+      const checkAdminExist: any= await db.admin.findOne({
+        where:{
+          email: data.email,
+        }
+      });
+  
+      if (!checkAdminExist) {
+        // eslint-disable-next-line no-throw-literal
+        throw {
+          status: httpCode.INVALID_INPUT,
+          message: responseMessage.INVALID_EMAIL,
+        };
+      }
+      const checkPassword= await validatePassword(data.password, checkAdminExist.password);
+      if (!checkPassword) {
+        // eslint-disable-next-line no-throw-literal
+        throw {
+          status: httpCode.INVALID_INPUT,
+          message: responseMessage.INVALID_OLD_PASSWORD,
+        };
+      }
+       let updateAdminPassword= await db.admin.update({
+            password:data.password
+       },{
+         where:{
+             email:data.email
+         }
+       });
+        return updateAdminPassword;
+    }
+    async updateProfile(data:any){
+         let updateAdminProfile= await db.admin.update({
+              email:data.email,
+              name:data.name
+         },{
+             where:{
+              email:data.email
+             }
+         });
+         return updateAdminProfile
+    }
   }
   
   export default new AdminService();

@@ -5,30 +5,24 @@ module.exports = (sequelize: any, Sequelize: any) => {
     'user_sessions',
     {
       id: {
-        type: INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
       },
       user_id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         required:true
       },
       device_id: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         required:true
       },
-      device_type: {
-        type: Sequelize.STRING,
+      device_token: {
+        type: DataTypes.STRING,
         required:true
       },
       status: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         required:true
-      },
-      created_at: {
-        type: Sequelize.STRING,
-      },
-      updated_at: {
-        type: Sequelize.STRING,
       },
     },
     {
