@@ -37,13 +37,13 @@ export const swaggerJSON = {
     ...updateProfileJSON
   },
   components: {
-    // securitySchemes: {
-    //   BearerAuth: {
-    //     type: 'http',
-    //     scheme: 'bearer',
-    //     bearerFormat: 'JWT',
-    //   },
-    // },
+    securitySchemes: {
+      BearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+    },
     parameters: {},
     schemas: {
       adminEmailPasswordSchema,

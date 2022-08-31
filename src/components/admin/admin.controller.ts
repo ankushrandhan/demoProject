@@ -5,7 +5,7 @@ const db = require("../../models/index");
 import responseMessage from "../../utils/common/responseMessage";
 import { generateToken } from "../../utils/helpers/jwt";
 import AdminSessionService from "../admin-session/admin-session-service";
-import {generateHash} from "../../utils/password";
+import { generateHash } from "../../utils/password";
 import userService from "../users/user.service";
 import UserSessionService from "../user-session/user-session-service";
 class AdminController {
@@ -15,8 +15,8 @@ class AdminController {
    */
   async login(req: Request, res: Response) {
     try {
-      const {...data} = req.body;
-      const {...headers} = req.headers;
+      const { ...data } = req.body;
+      const { ...headers } = req.headers;
       const checkAdmin = await adminService.login(data, headers);
       const token = await generateToken({
         email: checkAdmin.email,
@@ -43,10 +43,10 @@ class AdminController {
    */
   async register(req: Request, res: Response) {
     try {
-      const {...data} = req.body;
-      const {...headers} = req.headers;
+      const { ...data } = req.body;
+      const { ...headers } = req.headers;
       data.password = await generateHash(data.password);
-      const addUser = await userService.register(data,res);
+      const addUser = await userService.register(data, res);
 
       const token = await generateToken({
         email: addUser.email,
@@ -74,25 +74,25 @@ class AdminController {
    */
   async updateProfileUser(req: Request, res: Response) {
     try {
-      const {...data} = req.body;
+      const { ...data } = req.body;
       await userService.updateProfile(data);
       return handleAPISuccess(res, {}, responseMessage.PROFILE_UPDATE);
     } catch (err) {
       return handleAPIError(res, err);
     }
   }
-  async changePassword(req:Request,res:Response){
-    try{
-    const {...data}= req.body;
-    data.password = await generateHash(data.password);
-      await adminService.updatePassword(data)
-    return handleAPISuccess(res, {}, responseMessage.PASSWORD_UPDATED);
-    }catch(err){
+  async changePassword(req: Request, res: Response) {
+    try {
+      const { ...data } = req.body;
+      data.password = await generateHash(data.password);
+      await adminService.updatePassword(data);
+      return handleAPISuccess(res, {}, responseMessage.PASSWORD_UPDATED);
+    } catch (err) {
       return handleAPIError(res, err);
     }
   }
-  async updateProfile(req:Request,res:Response){
-    const {...data} = req.body;
+  async updateProfile(req: Request, res: Response) {
+    const { ...data } = req.body;
     await adminService.updateProfile(data);
     return handleAPISuccess(res, {}, responseMessage.PROFILE_UPDATE);
   }
