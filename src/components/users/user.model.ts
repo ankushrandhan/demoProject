@@ -1,14 +1,13 @@
-import { Model, DataTypes, Sequelize, INTEGER } from "sequelize";
-
-module.exports = (sequelize: any, Sequelize: any) => {
+import {DataTypes} from "sequelize";
+module.exports = (sequelize: any) => {
   const User = sequelize.define(
-    'users',
+    "users",
     {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
-			autoIncrement: true,
+        autoIncrement: true,
       },
       firstname: {
         type: DataTypes.STRING,
@@ -19,11 +18,10 @@ module.exports = (sequelize: any, Sequelize: any) => {
       email: {
         type: DataTypes.STRING,
       },
-      password: {
-        type: DataTypes.STRING,
-        unique: false
-      },
       designation: {
+        type: DataTypes.STRING,
+      },
+      password: {
         type: DataTypes.STRING,
       },
     },

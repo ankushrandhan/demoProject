@@ -1,32 +1,31 @@
-import { handleAPISuccess, handleAPIError } from "../../utils/functions";
-import { Request, Response } from "express";
+import {handleAPISuccess, handleAPIError} from "../../utils/functions";
+import {Request, Response} from "express";
 import adminService from "./admin.service";
 const db = require("../../models/index");
 import responseMessage from "../../utils/common/responseMessage";
-import { generateToken } from "../../utils/helpers/jwt";
+import {generateToken} from "../../utils/helpers/jwt";
 import AdminSessionService from "../admin-session/admin-session-service";
-import { generateHash } from "../../utils/password";
+import {generateHash} from "../../utils/password";
 import userService from "../users/user.service";
 import UserSessionService from "../user-session/user-session-service";
 class AdminController {
   /**
    * Function to login a admin
-   * @param  {Request} object  - request conatin the email, password and header information
+   * @param  {Request} object - request conatin the email, password and header information
    */
   async login(req: Request, res: Response) {
     try {
-      const { ...data } = req.body;
-      const { ...headers } = req.headers;
+      const {...data} = req.body;
+      const {...headers} = req.headers;
       const checkAdmin = await adminService.login(data, headers);
       const token = await generateToken({
         email: checkAdmin.email,
         id: checkAdmin.id,
-        timeStamps: Math.floor(Date.now() / 1000),
+        timeStamps:Math.floor(Date.now() / 1000),
       });
-
       await AdminSessionService.add({
         userId: checkAdmin.id,
-        device_token: token,
+        device_type: headers.device_type,
         status: "active",
         device_id: headers.device_id,
         activated_at: new Date().toISOString(),
@@ -43,17 +42,15 @@ class AdminController {
    */
   async register(req: Request, res: Response) {
     try {
-      const { ...data } = req.body;
-      const { ...headers } = req.headers;
+      const {...data} = req.body;
+      const {...headers} = req.headers;
       data.password = await generateHash(data.password);
       const addUser = await userService.register(data, res);
-
       const token = await generateToken({
         email: addUser.email,
         id: addUser.id,
         timeStamps: Math.floor(Date.now() / 1000),
       });
-
       // save sales agent session
       await UserSessionService.add({
         userId: addUser.id,
@@ -63,7 +60,7 @@ class AdminController {
         activated_at: new Date().toISOString(),
       });
       addUser.token = token;
-      return handleAPISuccess(res, addUser, responseMessage.LOGGED_IN);
+      return handleAPISuccess(res, addUser, responseMessage.REGISTERED_SUCCESSFULLY);
     } catch (err) {
       return handleAPIError(res, err);
     }
@@ -74,26 +71,28 @@ class AdminController {
    */
   async updateProfileUser(req: Request, res: Response) {
     try {
-      const { ...data } = req.body;
+      const {...data}= req.body;
       await userService.updateProfile(data);
       return handleAPISuccess(res, {}, responseMessage.PROFILE_UPDATE);
     } catch (err) {
       return handleAPIError(res, err);
     }
   }
-  async changePassword(req: Request, res: Response) {
+  async changePassword(req: any, res: Response) {
     try {
-      const { ...data } = req.body;
+      const {...data} = req.body;
+      const {...auth}=req.auth;
       data.password = await generateHash(data.password);
-      await adminService.updatePassword(data);
+      await adminService.updatePassword(data,auth);
       return handleAPISuccess(res, {}, responseMessage.PASSWORD_UPDATED);
     } catch (err) {
       return handleAPIError(res, err);
     }
   }
-  async updateProfile(req: Request, res: Response) {
-    const { ...data } = req.body;
-    await adminService.updateProfile(data);
+  async updateProfile(req: any, res: Response) {
+    const {...data} = req.body;
+    const {...auth} = req.auth;
+    await adminService.updateProfile(data,auth);
     return handleAPISuccess(res, {}, responseMessage.PROFILE_UPDATE);
   }
 }

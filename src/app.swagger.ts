@@ -1,14 +1,10 @@
 import {
   adminJSON,
   adminTag,
-  userUpdateSchema,
-  updateProfileUserJSON,
-  userRegisteredSchema,
   adminEmailPasswordSchema,
-  userJSON,
-  changePasswordJSON,
+  userRegisteredSchema,
+  userUpdateSchema,
   changePasswordSchema,
-  updateProfileJSON,
   updateProfileSchema
 } from "./components/admin/admin.swagger";
 export const swaggerJSON = {
@@ -25,16 +21,12 @@ export const swaggerJSON = {
   servers: [
     {
       url: process.env.BASE_URL,
-      description: "Main",
+      description: 'Main',
     },
   ],
   tags: [adminTag],
   paths: {
     ...adminJSON,
-    ...userJSON,
-    ...updateProfileUserJSON,
-    ...changePasswordJSON,
-    ...updateProfileJSON
   },
   components: {
     securitySchemes: {

@@ -31,9 +31,12 @@ const db = require("../../models/index");
      */
     async login(data:any,headers:any) {
       const checkAdminExist: any= await db.admin.findOne({
-        email: data.email,
+      
+        where:{
+          email: data.email,
+        },
+        raw:true
       });
-  
       if (!checkAdminExist) {
         // eslint-disable-next-line no-throw-literal
         throw {
@@ -51,10 +54,10 @@ const db = require("../../models/index");
       }
       return checkAdminExist;
     }
-    async updatePassword(data:any) {
+    async updatePassword(data:any,auth:any) {
       const checkAdminExist: any= await db.admin.findOne({
         where:{
-          email: data.email,
+          email: auth.email,
         }
       });
   
@@ -65,7 +68,7 @@ const db = require("../../models/index");
           message: responseMessage.INVALID_EMAIL,
         };
       }
-      const checkPassword= await validatePassword(data.password, checkAdminExist.password);
+      const checkPassword= await validatePassword(data.oldPassword, checkAdminExist.password);
       if (!checkPassword) {
         // eslint-disable-next-line no-throw-literal
         throw {
@@ -77,18 +80,18 @@ const db = require("../../models/index");
             password:data.password
        },{
          where:{
-             email:data.email
+             email:auth.email
          }
        });
         return updateAdminPassword;
     }
-    async updateProfile(data:any){
+    async updateProfile(data:any,auth:any){
          let updateAdminProfile= await db.admin.update({
               email:data.email,
               name:data.name
          },{
              where:{
-              email:data.email
+              email:auth.email
              }
          });
          return updateAdminProfile

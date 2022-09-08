@@ -8,22 +8,16 @@ import BaseValidator from '../../app.validators';
  */
 class AdminValidator extends BaseValidator {
   login = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('------req',req?.body)
     const validationSchema = Joi.object({
       email: Joi.string().email().required(),
-      password: Joi.string()
-      .regex(RegExp(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/))
-      .min(8)
-      .required()
-      .messages(
-          {
-            'string.pattern.base': 'Password should have atleast one lowercase letter, one capital letter, one number and one special character.',
-          },
-      ),
+      password:Joi.string().required(),
     });
 
     this.handler(validationSchema, req, res, next);
   };
   userRegistered = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('-------------',req?.headers)
     const validationSchema = Joi.object({
       firstname: Joi.string().required(),
       lastname:Joi.string().required(),
@@ -44,9 +38,10 @@ class AdminValidator extends BaseValidator {
   };
   updateProfileUser = async (req: Request, res: Response, next: NextFunction) => {
     const validationSchema = Joi.object({
-      firstname: Joi.string().email().required(),
+      firstname: Joi.string().required(),
       lastname: Joi.string().required(),
       designation: Joi.string().required(),
+      id: Joi.string().required(),
       
     });
 
@@ -54,7 +49,7 @@ class AdminValidator extends BaseValidator {
   };
   changePassword = async (req: Request, res: Response, next: NextFunction) => {
     const validationSchema = Joi.object({
-      oldPassword: Joi.string().email().required(),
+      oldPassword: Joi.string().required(),
       password: Joi.string()
       .regex(RegExp(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/))
       .min(8)
@@ -66,7 +61,7 @@ class AdminValidator extends BaseValidator {
       ),
       confirmPassword: Joi.any().equal(Joi.ref('password'))
       .required()
-      .label('Confirm password')
+      .label('confirmPassword')
       .messages({ 'any.only': '{{#label}} does not match' })
 
     });

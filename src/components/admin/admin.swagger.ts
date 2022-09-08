@@ -1,56 +1,18 @@
-import responseMessage from '../../utils/common/responseMessage';
-// import {headerParams} from '../../utils/common/swaggerHeaders';
-// import {Status} from '../../utils/enums';
+
 
 export const adminTag = {
-  name: 'Admin Module',
-  description: 'APIs related to admin such as  login, forgot password etc',
+  name: "Admin Module",
+  description: "APIs related to admin such as  login, forgot password etc",
 };
-
-
-export const adminSchema = {
-  required: ['name', 'email', 'password', 'role', 'isProfileCompleted'],
-  properties: {
-    id: {
-      type: 'string',
-      uniqueItems: true,
-    },
-    name: {
-      type: 'string',
-    },
-    email: {
-      type: 'string',
-    },
-    profileImage: {
-      type: 'string',
-    },
-    password: {
-      type: 'string',
-    },
-    passwordResetExpiresAt: {
-      type: 'date',
-    },
-    dob: {
-      type: 'date',
-    },
-    timezone: {
-      type: 'string',
-    },
-    isProfileCompleted: {
-      type: 'boolean',
-    },
-  },
-};
-
 
 export const adminEmailPasswordSchema = {
-  required: ['email', 'password'],
+  required: ["email", "password"],
   properties: {
     email: {
-      type: 'string',
+      type: "string",
     },
     password: {
-      type: 'string',
+      type: "string",
     },
   },
 };
@@ -86,6 +48,9 @@ export const userUpdateSchema = {
     designation: {
       type: "string",
     },
+    id: {
+      type: "string",
+    },
   },
 };
 export const changePasswordSchema = {
@@ -113,41 +78,39 @@ export const updateProfileSchema = {
     },
   },
 };
-
-
 export const adminJSON = {
-  '/admin/login': {
+  "/admin/login": {
     post: {
       tags: [adminTag.name],
-      summary: 'Signin admin into the admin panel',
-   //   parameters: [headerParams.deviceidParam],
+      summary: "Signin admin into the application",
+      //    parameters: [headerParams.deviceidParam],
       requestBody: {
         required: true,
         content: {
-          'application/json': {
+          "application/json": {
             schema: adminEmailPasswordSchema,
           },
         },
       },
       responses: {
         200: {
-          description: 'Success Response',
+          description: "Success Response",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
                 properties: {
                   status: {
-                    type: 'integer',
+                    type: "integer",
                   },
                   msg: {
-                    type: 'string',
+                    type: "string",
                   },
                   data: {
-                    type: 'object',
+                    type: "object",
                     properties: {
                       token: {
-                        type: 'string',
-                        example: 'abcd',
+                        type: "string",
+                        example: "abcd",
                       },
                     },
                   },
@@ -157,16 +120,16 @@ export const adminJSON = {
           },
         },
         400: {
-          description: 'Error Response',
+          description: "Error Response",
           content: {
-            'application/json': {
+            "application/json": {
               schema: {
                 properties: {
                   status: {
-                    type: 'integer',
+                    type: "integer",
                   },
                   msg: {
-                    type: 'string',
+                    type: "string",
                   },
                 },
               },
@@ -176,13 +139,22 @@ export const adminJSON = {
       },
     },
   },
-};
-export const userJSON = {
   "/admin/user-registered": {
     post: {
+
       tags: [adminTag.name],
-      summary: "Signup user into the application",
-      //   parameters: [headerParams.deviceidParam],
+      summary: "User registered by admin from admin panel.",
+      parameters: [
+        {
+          name: 'token',
+          in: 'header',
+          description: 'Authorization of the admin',
+          schema: {
+            type: 'string',
+            example: '629f0166df26b02b1c2d08fe62c6bfb119479740f94281d9',
+          },
+        },
+      ],
       requestBody: {
         required: true,
         content: {
@@ -238,13 +210,22 @@ export const userJSON = {
       },
     },
   },
-};
-export const updateProfileUserJSON = {
   "/admin/user-updateProfile": {
     put: {
+
       tags: [adminTag.name],
-      summary: "Profile updation of user by admin.",
-      //   parameters: [headerParams.deviceidParam],
+      summary: "Update profile by admin of user",
+      parameters: [
+        {
+          name: 'token',
+          in: 'header',
+          description: 'Authorization of the admin',
+          schema: {
+            type: 'string',
+            example: '629f0166df26b02b1c2d08fe62c6bfb119479740f94281d9',
+          },
+        },
+      ],
       requestBody: {
         required: true,
         content: {
@@ -300,13 +281,22 @@ export const updateProfileUserJSON = {
       },
     },
   },
-};
-export const changePasswordJSON = {
   "/admin/change-password": {
     put: {
+
       tags: [adminTag.name],
-      summary: "Password update by admin from admin panel.",
-      //   parameters: [headerParams.deviceidParam],
+      summary: "Change password by admin",
+      parameters: [
+        {
+          name: 'token',
+          in: 'header',
+          description: 'Authorization of the admin',
+          schema: {
+            type: 'string',
+            example: '629f0166df26b02b1c2d08fe62c6bfb119479740f94281d9',
+          },
+        },
+      ],
       requestBody: {
         required: true,
         content: {
@@ -362,13 +352,22 @@ export const changePasswordJSON = {
       },
     },
   },
-};
-export const updateProfileJSON = {
   "/admin/update-profile": {
     put: {
+
       tags: [adminTag.name],
-      summary: "Profile updation by admin",
-      //   parameters: [headerParams.deviceidParam],
+      summary: "Update profile by admin",
+      parameters: [
+        {
+          name: 'token',
+          in: 'header',
+          description: 'Authorization of the admin',
+          schema: {
+            type: 'string',
+            example: '629f0166df26b02b1c2d08fe62c6bfb119479740f94281d9',
+          },
+        },
+      ],
       requestBody: {
         required: true,
         content: {

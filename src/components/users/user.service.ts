@@ -1,6 +1,7 @@
 import responseMessage from "../../utils/common/responseMessage";
 import httpCode from "../../utils/common/httpCode";
 import { handleAPIError } from "../../utils/functions";
+import { compareSync } from "bcryptjs";
 const db = require("../../models/index");
 /**
  * AdminService class acting as a layer above the DB layer.
@@ -20,55 +21,48 @@ class UserService {
      * @param  {object} data -data included the information regarding admin like email and password
      * @return {object} data - object containing the information of admin
      */
-  async register(data: any,res:any) {
-    try{
-      const checkUserExist: any = await db.users.findOne({
-        where: {
-          email: data.email,
-        },
-        raw: true,
-      });
-      if (checkUserExist) { 
-        // eslint-disable-next-line no-throw-literal
-        throw {
-          status: httpCode.INVALID_INPUT,
-          message: responseMessage.EMAIL_ALREADY_EXIST,
-        };
-      }
-      // console.log("innnnnnnnnn")
-      const createUser = await db.users.create(data);
-      return createUser;
-  }
-  catch(err:any){
-    console.log(err,"err=========================")
-    return handleAPIError(res, err);
-  }
-}
-async updateProfile(data: any) {
-  try{
+  async register(data: any, res: any) {
     const checkUserExist: any = await db.users.findOne({
       where: {
         email: data.email,
       },
       raw: true,
     });
-    if (!checkUserExist) { 
+    console.log('--------------register')
+    if (checkUserExist) {
       // eslint-disable-next-line no-throw-literal
       throw {
         status: httpCode.INVALID_INPUT,
-        message: responseMessage.INVALID_USER_ID,
+        message: responseMessage.EMAIL_ALREADY_EXIST,
       };
     }
-    const updateDetails= await db.users.update(data,{
-        where:{
-          email: data.email,
-        }
-    })
-    return updateDetails;
-}
-catch(err:any){
-  console.log(err)
-}
-}
+    const createUser = await db.users.create(data);
+    return createUser;
+  }
+  async updateProfile(data: any) {
+    try {
+      const checkUserExist: any = await db.users.findOne({
+        where: {
+          id: data.id,
+        },
+        raw: true,
+      });
+      if (!checkUserExist) {
+        // eslint-disable-next-line no-throw-literal
+        throw {
+          status: httpCode.INVALID_INPUT,
+          message: responseMessage.INVALID_USER_ID,
+        };
+      }
+      const updateDetails = await db.users.update(data, {
+        where: {
+          id: data.id,
+        },
+      });
+      return updateDetails;
+    } catch (err: any) {
+      console.log(err);
+    }
+  }
 }
 export default new UserService();

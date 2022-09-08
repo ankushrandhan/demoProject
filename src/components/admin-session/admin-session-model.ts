@@ -7,6 +7,8 @@ module.exports = (sequelize: any, Sequelize: any) => {
       id: {
         type: INTEGER,
         primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
       },
       user_id: {
         type: Sequelize.INTEGER,
@@ -16,19 +18,13 @@ module.exports = (sequelize: any, Sequelize: any) => {
         type: Sequelize.STRING,
         required:true
       },
-      device_token: {
+      device_type: {
         type: Sequelize.STRING,
         required:true
       },
       status: {
         type: Sequelize.STRING,
         required:true
-      },
-      created_at: {
-        type: Sequelize.STRING,
-      },
-      updated_at: {
-        type: Sequelize.STRING,
       },
     },
     {
